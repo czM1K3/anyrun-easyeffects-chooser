@@ -16,7 +16,7 @@ pub struct State {
 
 #[init]
 fn init(_config_dir: RString) -> State {
-    let pactl_inputs_raw = Command::new("bash").args(["-c", "pactl --format=json list sources | jq 'map(select(.monitor_source != \"\" and .name != \"easyeffects_sink.monitor\") | {name,description})'"]).output().expect("Failed to get sources");
+    let pactl_inputs_raw = Command::new("bash").args(["-c", "pactl --format=json list sources | jq 'map(select(.name != \"easyeffects_source\" and (.description | startswith(\"Monitor\") | not)) | {name,description})'"]).output().expect("Failed to get sources");
     let pactl_inputs_raw_string =
         String::from_utf8(pactl_inputs_raw.stdout).expect("Failed to get sources stdout");
     let pactl_inputs: Vec<PactlEntry> =
