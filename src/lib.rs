@@ -96,9 +96,13 @@ fn handler(selection: Match) -> HandleResult {
         .description
         .expect("Error getting name")
         .to_string();
+    let bypass = match name.as_str() {
+        "alsa_output.usb-CHIYINFOX_Co._Ltd._GH510_000000000000-00.analog-stereo" => 2,
+        _ => 1,
+    };
     let command = format!(
-        "gsettings set com.github.wwmm.easyeffects.stream{}s {}-device {}",
-        audio_type, audio_type, name
+        "gsettings set com.github.wwmm.easyeffects.stream{}s {}-device {} && easyeffects -b {}",
+        audio_type, audio_type, name, bypass
     );
     Command::new("bash").args(["-c", &*command]).exec();
     HandleResult::Close
