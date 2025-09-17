@@ -100,6 +100,6 @@ fn handler(selection: Match) -> HandleResult {
         "gsettings set com.github.wwmm.easyeffects.stream{}s {}-device {}",
         audio_type, audio_type, name
     );
-    Command::new("bash").args(["-c", &*command]).exec();
+    let _ = Command::new("bash").args(["-c", &*command]).exec();
     HandleResult::Close
 }
